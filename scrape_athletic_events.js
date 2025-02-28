@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs-extra');
 const path = require('path');
@@ -6,53 +6,37 @@ const path = require('path');
 const ATHLETICS_URL = 'https://denverpioneers.com/index.aspx';
 
 async function scrapeAthleticEvents() {
-  // Launch Puppeteer to get fully rendered HTML
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
-  await page.goto(ATHLETICS_URL, { waitUntil: 'networkidle2' });
-  
-  // Wait for the carousel container to load (adjust selector if needed)
-  await page.waitForSelector('.slick-track');
+  try {
+    const { data } = await axios.get(ATHLETICS_URL);
+    const $ = cheerio.load(data);
 
-  const content = await page.content();
-  await browser.close();
-
-  const $ = cheerio.load(content);
-  const events = [];
-
-  // Iterate over each carousel item
-  $('.c-scoreboard__item').each((i, element) => {
-    // Get the DU team name from the away section
-    const duTeam = $(element)
-      .find('.c-scoreboard__team--away .c-scoreboard__sport')
-      .text()
-      .trim();
-    // Get the opponent name from the home section
-    const opponent = $(element)
-      .find('.c-scoreboard__team--home .c-scoreboard__team-name')
-      .text()
-      .trim();
-    // Get the event date from the aria-label of the hidden button
-    const ariaLabel = $(element).find('button.accessible-hide').attr('aria-label');
-    let date = '';
-    if (ariaLabel) {
-      const dateMatch = ariaLabel.match(/on\s+([\d\/]+)\s+at/);
-      if (dateMatch && dateMatch[1]) {
-        date = dateMatch[1];
-      }
+    // Locate the script tag that holds the JSON data
+    const scriptContent = $('section[aria-labelledby="h2_scoreboard"] script').html();
+    if (!scriptContent) {
+      console.error('Unable to locate the JSON script on the athletics page.');
+      return;
     }
-    if (duTeam && opponent && date) {
-      events.push({ duTeam, opponent, date });
+    // Extract the JSON object using a regex
+    const jsonMatch = scriptContent.match(/var\s+obj\s*=\s*(\{.*\});/);
+    if (!jsonMatch) {
+      console.error('JSON data not found in the script tag.');
+      return;
     }
-  });
+    const jsonData = JSON.parse(jsonMatch[1]);
 
-  await fs.ensureDir(path.join(__dirname, 'results'));
-  await fs.writeJson(
-    path.join(__dirname, 'results', 'athletic_events.json'),
-    { events },
-    { spaces: 2 }
-  );
-  console.log('Athletic events scraped successfully.');
+    // Map the data to extract the DU team, opponent, and date.
+    const eventsData = jsonData.data.map(item => ({
+      duTeam: item.sport?.title || 'Unknown DU Team',
+      opponent: item.opponent?.title || 'Unknown Opponent',
+      date: item.date || 'Unknown Date'
+    }));
+
+    await fs.ensureDir(path.join(__dirname, 'results'));
+    await fs.writeJson(path.join(__dirname, 'results', 'athletic_events.json'), { events: eventsData }, { spaces: 2 });
+    console.log('Athletic events successfully saved to results/athletic_events.json');
+  } catch (error) {
+    console.error('Error fetching or processing athletic events:', error);
+  }
 }
 
 scrapeAthleticEvents();
