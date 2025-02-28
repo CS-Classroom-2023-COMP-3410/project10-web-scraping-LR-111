@@ -1,0 +1,104 @@
+{
+  "events": [
+    {
+      "duTeam": "Skiing",
+      "opponent": "Slalom",
+      "date": "2/22/2025"
+    },
+    {
+      "duTeam": "Skiing",
+      "opponent": "20K Freestyle",
+      "date": "2/22/2025"
+    },
+    {
+      "duTeam": "M Lacrosse",
+      "opponent": "#3 Cornell",
+      "date": "2/22/2025"
+    },
+    {
+      "duTeam": "M Soccer",
+      "opponent": "New Mexico United",
+      "date": "2/22/2025"
+    },
+    {
+      "duTeam": "W Basketball",
+      "opponent": "North Dakota",
+      "date": "2/22/2025"
+    },
+    {
+      "duTeam": "M Hockey",
+      "opponent": "Miami",
+      "date": "2/22/2025"
+    },
+    {
+      "duTeam": "M Tennis",
+      "opponent": "Jacksonville State",
+      "date": "2/23/2025"
+    },
+    {
+      "duTeam": "W Lacrosse",
+      "opponent": "San Diego State",
+      "date": "2/23/2025"
+    },
+    {
+      "duTeam": "W Basketball",
+      "opponent": "South Dakota State",
+      "date": "2/27/2025"
+    },
+    {
+      "duTeam": "M Basketball",
+      "opponent": "Kansas City",
+      "date": "2/27/2025"
+    },
+    {
+      "duTeam": "M Tennis",
+      "opponent": "BYU",
+      "date": "2/28/2025"
+    },
+    {
+      "duTeam": "W Gymnastics",
+      "opponent": "Iowa State, (18) NC State",
+      "date": "2/28/2025"
+    },
+    {
+      "duTeam": "M Lacrosse",
+      "opponent": "Marist",
+      "date": "2/28/2025"
+    },
+    {
+      "duTeam": "M Hockey",
+      "opponent": "St. Cloud State",
+      "date": "2/28/2025"
+    },
+    {
+      "duTeam": "W Basketball",
+      "opponent": "South Dakota",
+      "date": "3/1/2025"
+    },
+    {
+      "duTeam": "W Lacrosse",
+      "opponent": "#9 Maryland",
+      "date": "3/1/2025"
+    },
+    {
+      "duTeam": "M Basketball",
+      "opponent": "South Dakota State",
+      "date": "3/1/2025"
+    },
+    {
+      "duTeam": "W Tennis",
+      "opponent": "Kansas City",
+      "date": "3/1/2025"
+    },
+    {
+      "duTeam": "M Hockey",
+      "opponent": "St. Cloud State",
+      "date": "3/1/2025"
+    },
+    {
+      "duTeam": "W Tennis",
+      "opponent": "Omaha",
+      "date": "3/2/2025"
+    }
+  ]
+}
